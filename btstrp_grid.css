@@ -1,0 +1,35 @@
+.color-grid-item {
+    height: 250px;
+    display: flex;
+    align-items: center;
+    border: 5px rgb(80, 80, 80) solid;
+  }
+  
+  .box-text {
+    margin: auto;
+  }
+  
+  .box-1 {
+    background-color: blue;
+    color: white;
+  }
+  
+  .box-2 {
+    background-color: yellow;
+    color: black;
+  }
+  
+  .box-3 {
+    background-color: rgb(4, 197, 4);
+    color: black;
+  }
+  
+  .box-4 {
+    background-color: red;
+    color: black;
+  }
+  
+  .box-5 {
+    background-color: rgb(207, 99, 211);
+    color: black;
+  }
