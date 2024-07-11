@@ -333,3 +333,7 @@ const Person = class {
 const personClass = new Person("Lucy", "Barest", "this is a bio", "lnbare26@colby.edu");
 console.log(personClass)
 console.log(personClass.getFullName)
+
+
+
+//write some func
