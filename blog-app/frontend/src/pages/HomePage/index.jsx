@@ -1,7 +1,7 @@
 import React from "react";
 
 import BlogGrid from "../../components/BlogGrid";
-import CategoriesList from "../../components/CategoryList";
+import CategoryList from "../../components/CategoryList";
 import Footer from "../../components/Footer";
 import Heading from "../../components/Heading";
 import Navbar from "../../components/Navbar";
@@ -17,18 +17,12 @@ export default function HomePage() {
       <Navbar />
       <div className="container">
         <Heading />
-        <Subheading subHeading={"Recent blogs"} />
-        <BlogGrid
-          blogs={blogs}
-          setBlog={(blogID) => {
-            console.log("Selected Blog Clicked:", blogID);
-          }}
-        />
+        <Subheading subHeading={"Recent Blog Posts"} />
+        <BlogGrid blogPosts={blogs}></BlogGrid>
         <Subheading subHeading={"Categories"} />
-        <CategoriesList categories={categories} />
+        <CategoryList categories={categories}></CategoryList>
         <Footer />
       </div>
     </>
   );
 }
-

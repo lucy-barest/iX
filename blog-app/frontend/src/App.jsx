@@ -9,22 +9,16 @@ import "./App.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "../src/pages/HomePage";
-import Blogs from "../src/pages/BlogsPage";
-import Categories from "../src/components/Categories";
+import HomePage from "./pages/HomePage";
+import Blogs from "./pages/BlogsPage";
+import Categories from "./pages/CategoriesPage";
 
-// function App() {
-//   return <Home />;
-//   // return <BlogsPage />;
-// }
-
-// export default App;
 
 function App() {
   return (
     <div className="App">
       <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/categories" element={<Categories />} />
         </Routes>

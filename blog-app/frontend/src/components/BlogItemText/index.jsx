@@ -1,18 +1,19 @@
 import React from "react";
 
+import Categories from "../Categories";
 import "./index.css";
 
-import Categories from "../Categories";
-
-export default function BlogItemText({ headerFontSize, blog }) {
+export default function BlogItemText({ blogPost, headerFontSize }) {
   return (
     <div>
       <div style={{ display: "flex" }}>
         <p className="date-author-text">
-          {blog.author.firstName} {blog.author.lastName}
+          {blogPost.author.firstName} {blogPost.author.lastName}
         </p>
         <div className="dot-divider"></div>
-        <p className="date-author-text">{blog.createdAt.substring(0, 10)}</p>
+        <p className="date-author-text">
+          {blogPost.createdAt.substring(0, 10)}
+        </p>
       </div>
       <p
         style={{
@@ -21,12 +22,12 @@ export default function BlogItemText({ headerFontSize, blog }) {
           textAlign: "left",
         }}
       >
-        {blog.title}
+        {blogPost.title}
       </p>
       <p style={{ fontSize: "16px", color: "#667085", textAlign: "left" }}>
-        {blog.description.substring(0, 100)}...
+        {blogPost.description.substring(0, 100)}...
       </p>
-      <Categories blog={blog} />
+      <Categories blogPost={blogPost} />
     </div>
   );
 }

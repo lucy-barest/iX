@@ -49,7 +49,7 @@ export default function BlogsPage() {
       );
     });
   };
-
+  
   return (
     <>
       <Navbar />
