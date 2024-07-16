@@ -11,22 +11,22 @@ const data = require("../../dummy-data.json");
 const blogsData = data.blogPosts.reverse();
 
 export default function BlogPage() {
-  const { blogId } = useParams();
-  const navigate = useNavigate();
-  const [blog, setBlog] = useState();
+const { blogId } = useParams();
+const navigate = useNavigate();
+const [blog, setBlog] = useState();
 
-  useEffect(() => {
-    const blogRes = blogsData.find((blog) => blog.id === parseInt(blogId));
-    setBlog(blogRes);
-  }, [blogId]);
+useEffect(() => {
+  const blogRes = blogsData.find((blog) => blog.id === parseInt(blogId));
+  setBlog(blogRes);
+}, [blogId]);
 
-  const navigateToAuthorProfile = () => {
-    navigate("/profile");
-  };
+const navigateToAuthorProfile = () => {
+  navigate("/profile");
+};
 
-  if (!blog) {
-    return null;
-  }
+if (!blog) {
+  return null;
+}
 
   return (
     <>

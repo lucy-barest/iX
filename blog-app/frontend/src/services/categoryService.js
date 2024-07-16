@@ -17,5 +17,5 @@ const getCategories = async () => {
   const categoryService = {
     getCategories,
   };
-  
+
   export default categoryService;
