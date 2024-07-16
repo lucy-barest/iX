@@ -1,11 +1,7 @@
-#blog-item {
-    width: 30%;
-    display: inline-flex;
-    margin: 15px 10px;
-}
+.blog-grid {
+    display: "grid";
+    grid-template-columns: 30% 30% 30%;
+    column-gap: 5%;
+  }
 
-.blog-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+  
