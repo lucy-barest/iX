@@ -7,7 +7,7 @@
     "start": "node .",
     "dev": "nodemon ."
   },
-  "author": "Brenden Saur",
+  "author": "Lucy Barest",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
