@@ -1,32 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
+import "./index.css";
+
 import Categories from "../../components/Categories";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-import "./index.css";
-
-const data = require("../../dummy-data.json");
-const blogsData = data.blogPosts.reverse();
+import blogsService from "../../services/blogsService";
+import SuccessToast from "../../components/SuccessToast";
+import ErrorToast from "../../components/ErrorToast";
+import Loader from "../../components/Loader";
 
 export default function BlogPage() {
-const { blogId } = useParams();
-const navigate = useNavigate();
-const [blog, setBlog] = useState();
+  const { blogId } = useParams();
+  const navigate = useNavigate();
 
-useEffect(() => {
-  const blogRes = blogsData.find((blog) => blog.id === parseInt(blogId));
-  setBlog(blogRes);
-}, [blogId]);
+  const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
 
-const navigateToAuthorProfile = () => {
-  navigate("/profile");
-};
+  const [blog, setBlog] = useState();
 
-if (!blog) {
-  return null;
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await blogsService.getBlogById(blogId);
+        setBlog(res.data);
+        setLoading(false);
+      } catch (error) {
+        setMessage(error.message);
+        setIsError(true);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [blogId]);
+
+  const navigateToAuthorProfile = () => {
+    navigate("/profile/" + blog.author.id);
+  };
+
+  if (loading || !blog) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -70,6 +90,20 @@ if (!blog) {
         </div>
       </main>
       <Footer />
+      <SuccessToast
+        show={isSuccess}
+        message={message}
+        onClose={() => {
+          setIsSuccess(false);
+        }}
+      />
+      <ErrorToast
+        show={isError}
+        message={message}
+        onClose={() => {
+          setIsError(false);
+        }}
+      />
     </>
   );
 }

@@ -1,0 +1,5 @@
+.flex-sub-heading {
+    display: flex;
+    justify-content: space-between;
+}
+
