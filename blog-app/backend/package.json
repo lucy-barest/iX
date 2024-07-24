@@ -1,15 +1,17 @@
 {
   "name": "blog-app",
   "version": "1.0.0",
-  "description": "the backend express app for my full-stack blog-app",
+  "description": "The backend express application for the my first full stack blog app",
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Lucy Barest",
+  "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -19,4 +21,6 @@
     "nodemon": "^3.1.4"
   }
 }
+
+
 
