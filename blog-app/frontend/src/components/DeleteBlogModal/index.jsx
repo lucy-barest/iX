@@ -1,43 +1,103 @@
-import React from "react";
-import PropType from "prop-types";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo, useEffect, useState } from "react";
+import { Modal } from "bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function CategoriesScrollList({
-  categories,
-  categoryId,
-  // setCategoryId,
-}) {
-  const navigate = useNavigate();
-  return categories.map((category, index) => {
-    return categoryId === category.id ? (
-      <button
-        key={index}
-        onClick={() => {
-          // setCategoryId(category.id);
-          navigate("/blogs/" + category.id);
-        }}
-        style={{ color: "blue" }}
-      >
-        <p key={index}>{category.title}</p>
-      </button>
-    ) : (
-      <button
-        key={index}
-        onClick={() => {
-          // setCategoryId(category.id);
-          navigate("/blogs/" + category.id);
-        }}
-        style={{ color: "black" }}
-      >
-        <p key={index}>{category.title}</p>
-      </button>
-    );
-  });
+import { setDeleteBlog } from "../../features/blogsSlice";
+
+import useBlogs from "../../hooks/useBlogs";
+
+export default function DeleteBlogModal() {
+  const dispatch = useDispatch();
+  const { deleteBlog } = useSelector((state) => state.blogs);
+  const { removeBlog } = useBlogs();
+
+  const [blog, setBlog] = useState();
+
+  const onClose = () => {
+    dispatch(setDeleteBlog(null));
+  };
+
+  const modalEl = document.getElementById("deleteBlogModal");
+  const deleteBlogModal = useMemo(() => {
+    return modalEl ? new Modal(modalEl) : null;
+  }, [modalEl]);
+
+  useEffect(() => {
+    if (deleteBlog) {
+      setBlog(deleteBlog);
+      deleteBlogModal?.show();
+    }
+  }, [deleteBlog, deleteBlogModal]);
+
+  const resetBlog = () => {
+    setBlog(null);
+  };
+
+  const onCloseModal = () => {
+    resetBlog();
+    onClose();
+    deleteBlogModal?.hide();
+  };
+
+  const onDelete = () => {
+    removeBlog(deleteBlog);
+    resetBlog();
+    deleteBlogModal?.hide();
+  };
+
+  return (
+    <div
+      className="modal fade"
+      id="deleteBlogModal"
+      aria-labelledby="deleteBlogModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="deleteBlogModalLabel">
+              Delete Blog
+            </h1>
+            <button
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+              onClick={onCloseModal}
+            ></button>
+          </div>
+          <div className="modal-body">
+            <p>Are You sure you want to delete this Blog Post?</p>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src={blog?.image}
+                alt={blog?.title}
+                style={{ width: "50px" }}
+              />
+              <h5 style={{ marginLeft: "8px" }}>{blog?.title}</h5>
+            </div>
+          </div>
+
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onCloseModal}
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-danger"
+              onClick={onDelete}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-CategoriesScrollList.prototype = {
-  categories: PropType.array.isRequired,
-  categoryId: PropType.string.isRequired,
-  setCategoryId: PropType.func.isRequired,
-};
+DeleteBlogModal.prototype = {};
 

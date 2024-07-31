@@ -1,32 +1,36 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Modal } from "bootstrap";
-import PropType from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function AddEditCategoryModal({
-  addCategory,
-  editCategory,
-  createCategory,
-  updateCategory,
-  onClose,
-}) {
+import {
+  setAddCategory,
+  setEditCategory,
+} from "../../features/categoriesSlice";
+
+import useCategories from "../../hooks/useCategories";
+
+export default function AddEditCategoryModal() {
   const modalEl = document.getElementById("addEditCategoryModal");
   const addEditCategoryModal = useMemo(() => {
     return modalEl ? new Modal(modalEl) : null;
   }, [modalEl]);
 
-  const [category, setCategory] = useState({
-    title: "",
-    description: "",
-    color: "",
-  });
+  const dispatch = useDispatch();
+  const { createCategory, updateCategory } = useCategories();
+
+  const { addCategory, editCategory } = useSelector(
+    (state) => state.categories
+  );
+
+  const [category, setCategory] = useState(null);
 
   useEffect(() => {
     if (addCategory) {
       setCategory(addCategory);
-      addEditCategoryModal.show();
+      addEditCategoryModal?.show();
     } else if (editCategory) {
       setCategory(editCategory);
-      addEditCategoryModal.show();
+      addEditCategoryModal?.show();
     }
   }, [addCategory, editCategory, addEditCategoryModal]);
 
@@ -49,12 +53,13 @@ export default function AddEditCategoryModal({
     addEditCategoryModal.hide();
   };
 
+  const onClose = () => {
+    dispatch(setAddCategory(null));
+    dispatch(setEditCategory(null));
+  };
+
   const resetCategory = () => {
-    setCategory({
-      title: "",
-      description: "",
-      color: "",
-    });
+    setCategory(null);
   };
 
   const isFormValid = () => {
@@ -156,11 +161,5 @@ export default function AddEditCategoryModal({
   );
 }
 
-AddEditCategoryModal.prototype = {
-  addCategory: PropType.object.isRequired,
-  editCategory: PropType.object.isRequired,
-  createCategory: PropType.func.isRequired,
-  updateCategory: PropType.func.isRequired,
-  onClose: PropType.func.isRequired,
-};
+AddEditCategoryModal.prototype = {};
 

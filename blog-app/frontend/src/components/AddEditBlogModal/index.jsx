@@ -1,19 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
-
-import PropTypes from "prop-types";
-
 import { Modal } from "bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
 import Categories from "../Categories";
 
-export default function AddEditBlogModal({
-  addBlog,
-  editBlog,
-  categories,
-  createBlog,
-  updateBlog,
-  onClose,
-}) {
+import { setAddBlog, setEditBlog } from "../../features/blogsSlice";
+
+import useBlogs from "../../hooks/useBlogs";
+
+export default function AddEditBlogModal() {
+  const dispatch = useDispatch();
+  const { createBlog, updateBlog } = useBlogs();
+
+  const { addBlog, editBlog } = useSelector((state) => state.blogs);
+
+  const { categories } = useSelector((state) => state.categories);
+
   const [blog, setBlog] = useState();
 
   const modalEl = document.getElementById("addEditModal");
@@ -46,18 +48,7 @@ export default function AddEditBlogModal({
   };
 
   const resetBlog = () => {
-    setBlog({
-      title: "",
-      description: "",
-      categories: [],
-      content: [
-        {
-          sectionHeader: "",
-          sectionText: "",
-        },
-      ],
-      authorId: "",
-    });
+    setBlog(null);
   };
 
   const isFormValid = () => {
@@ -68,8 +59,13 @@ export default function AddEditBlogModal({
 
   const onCloseModal = () => {
     resetBlog();
-    addEditModal?.hide();
     onClose();
+    addEditModal?.hide();
+  };
+
+  const onClose = () => {
+    dispatch(setAddBlog(null));
+    dispatch(setEditBlog(null));
   };
 
   return (
@@ -316,12 +312,5 @@ export default function AddEditBlogModal({
   );
 }
 
-AddEditBlogModal.prototype = {
-  addBlog: PropTypes.object,
-  editBlog: PropTypes.object,
-  categories: PropTypes.array,
-  createBlog: PropTypes.func,
-  updateBlog: PropTypes.func,
-  onClose: PropTypes.func,
-};
+AddEditBlogModal.prototype = {};
 

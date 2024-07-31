@@ -3,8 +3,21 @@ import BlogItem from "../BlogItem";
 import PropTypes from "prop-types";
 
 import "./index.css";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function BlogList({ blogs, onBlogEdit, onBlogDelete }) {
+import { setEditBlog, setDeleteBlog } from "../../features/blogsSlice";
+
+export default function BlogList() {
+  const dispatch = useDispatch();
+  const { blogs } = useSelector((state) => state.blogs);
+
+  const onBlogEdit = (blog) => {
+    dispatch(setEditBlog(blog));
+  };
+  const onBlogDelete = (blog) => {
+    dispatch(setDeleteBlog(blog));
+  };
+
   if (!blogs || !blogs.length) {
     return null;
   }

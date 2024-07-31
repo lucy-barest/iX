@@ -1,40 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./index.css";
 
 import Categories from "../../components/Categories";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-
-import blogsService from "../../services/blogsService";
 import SuccessToast from "../../components/SuccessToast";
 import ErrorToast from "../../components/ErrorToast";
 import Loader from "../../components/Loader";
 
+import { fetchBlogById, resetSuccessAndError } from "../../features/blogsSlice";
+
 export default function BlogPage() {
   const { blogId } = useParams();
+  const { blog, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.blogs
+  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const [blog, setBlog] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        setLoading(true);
-        const res = await blogsService.getBlogById(blogId);
-        setBlog(res.data);
-        setLoading(false);
-      } catch (error) {
-        setMessage(error.message);
-        setIsError(true);
-        setLoading(false);
-      }
+      dispatch(fetchBlogById(blogId));
     };
 
     fetchData();
@@ -44,7 +33,7 @@ export default function BlogPage() {
     navigate("/profile/" + blog.author.id);
   };
 
-  if (loading || !blog) {
+  if (isLoading || !blog) {
     return <Loader />;
   }
 
@@ -94,14 +83,14 @@ export default function BlogPage() {
         show={isSuccess}
         message={message}
         onClose={() => {
-          setIsSuccess(false);
+          dispatch(resetSuccessAndError());
         }}
       />
       <ErrorToast
         show={isError}
         message={message}
         onClose={() => {
-          setIsError(false);
+          dispatch(resetSuccessAndError());
         }}
       />
     </>
