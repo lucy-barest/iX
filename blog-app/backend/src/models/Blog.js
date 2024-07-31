@@ -41,7 +41,14 @@ blogSchema.method("toJSON", function () {
     ...object
   } = this.toObject();
   object.id = _id;
-  object.author = author;
+  object.author = {
+    id: author._id,
+    image: author.image,
+    firstName: author.firstName,
+    lastName: author.lastName,
+    bio: author.bio,
+    email: author.email,
+  };
   object.categories = categories.map((category) => {
     return {
       id: category._id,
@@ -54,3 +61,4 @@ blogSchema.method("toJSON", function () {
 });
 
 module.exports = mongoose.model("Blog", blogSchema);
+
