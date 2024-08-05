@@ -1,10 +1,11 @@
 const express = require("express");
 const blogsController = require("../controllers/blogController");
 const { protect } = require("../middleware/authMiddleware");
+const { upload } = require("../middleware/multer");
 
 const router = express.Router();
 
-router.post("/", protect, (req, res) => {
+router.post("/", protect, upload.single("image"), (req, res) => {
   blogsController.createBlog(req, res);
 });
 

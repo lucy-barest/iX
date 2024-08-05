@@ -1,19 +1,25 @@
 const Blog = require("../models/Blog");
+const {
+  uploadToGoogleCloudStorage,
+} = require("../services/google-cloud-storage");
 
 const createBlog = async (req, res) => {
   try {
+    if (req?.file?.path) {
+      imageURL = await uploadToGoogleCloudStorage(req?.file?.path);
+    }
     const user = req.user;
     console.log(user);
-    const categoryIds = req.body.categories.map((category) => {
+    const categoryIds = JSON.parse(req.body.categories).map((category) => {
       return category.id;
     });
     const blog = new Blog({
       title: req.body.title,
       description: req.body.description,
-      content: req.body.content,
+      content: JSON.parse(req.body.content),
       categoryIds: categoryIds,
       authorId: req.body.authorId,
-      image: req.body.image,
+      image: imageURL ? imageURL : "",
     });
     const newBlog = await blog.save();
     const blogRes = await Blog.findById(newBlog._id)
