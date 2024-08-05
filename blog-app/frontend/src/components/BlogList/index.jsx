@@ -1,6 +1,5 @@
 import React from "react";
 import BlogItem from "../BlogItem";
-import PropTypes from "prop-types";
 
 import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,9 +38,5 @@ export default function BlogList() {
   );
 }
 
-BlogList.prototype = {
-  blogs: PropTypes.array.isRequired,
-  onBlogEdit: PropTypes.func,
-  onBlogDelete: PropTypes.func,
-};
+BlogList.prototype = {};
 

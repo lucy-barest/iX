@@ -3,12 +3,15 @@ import { Modal } from "bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import Categories from "../Categories";
+import FormImage from "../FormImage";
 
 import { setAddBlog, setEditBlog } from "../../features/blogsSlice";
 
 import useBlogs from "../../hooks/useBlogs";
 
 export default function AddEditBlogModal() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const dispatch = useDispatch();
   const { createBlog, updateBlog } = useBlogs();
 
@@ -17,6 +20,7 @@ export default function AddEditBlogModal() {
   const { categories } = useSelector((state) => state.categories);
 
   const [blog, setBlog] = useState();
+  const [image, setImage] = useState();
 
   const modalEl = document.getElementById("addEditModal");
 
@@ -34,13 +38,26 @@ export default function AddEditBlogModal() {
     }
   }, [addBlog, editBlog, addEditModal]);
 
+  const buildFormData = () => {
+    const formData = new FormData();
+    formData.append("id", blog.id);
+    formData.append("image", blog.image);
+    formData.append("title", blog.title);
+    formData.append("description", blog.description);
+    formData.append("categories", JSON.stringify(blog.categories));
+    formData.append("content", JSON.stringify(blog.content));
+    formData.append("authorId", user?._id);
+    return formData;
+  };
+
   const onSubmit = (e) => {
     e?.preventDefault();
     if (isFormValid()) {
+      const blogForm = buildFormData();
       if (addBlog) {
-        createBlog(blog);
+        createBlog(blogForm);
       } else if (editBlog) {
-        updateBlog(blog);
+        updateBlog(blogForm);
       }
       resetBlog();
       addEditModal?.hide();
@@ -68,6 +85,14 @@ export default function AddEditBlogModal() {
     dispatch(setEditBlog(null));
   };
 
+  const onImageChange = (e) => {
+    if (e?.target?.files?.length) {
+      const file = e.target.files[0];
+      setImage(URL.createObjectURL(file));
+      setBlog({ ...blog, image: file });
+    }
+  };
+
   return (
     <div>
       <div
@@ -91,6 +116,7 @@ export default function AddEditBlogModal() {
             </div>
             <div className="modal-body">
               <form id="blogForm">
+                <FormImage image={image} onChange={onImageChange} />
                 <div className="input-group mb-3">
                   <label
                     className="input-group-text"

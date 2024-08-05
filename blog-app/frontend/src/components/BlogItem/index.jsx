@@ -26,7 +26,7 @@ export default function BlogItem({
         onEdit={() => onBlogEdit(blog)}
         onDelete={() => onBlogDelete(blog)}
         onNavigate={() => {
-          navigate("/blog/" + blog.id);
+          navigate("/blog/" + blog?.id);
         }}
       />
     );
