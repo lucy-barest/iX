@@ -3,11 +3,11 @@ const createBlog = async (blog) => {
     const res = await fetch("http://localhost:8000/api/blogs", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization:
           "Bearer " + JSON.parse(localStorage.getItem("user"))?.token,
       },
-      body: JSON.stringify(blog),
+      body: blog,
     });
     if (!res.ok) {
       throw Error(res.statusText);
