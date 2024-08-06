@@ -31,7 +31,7 @@ export const fetchCategories = createAsyncThunk(
     try {
       return await categoryService.getCategories();
     } catch (error) {
-      const message = error.message || error;
+      const message = 'error.message || error';
       return thunkAPI.rejectWithValue(message);
     }
   }

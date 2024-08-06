@@ -10,7 +10,7 @@ export default function DeleteBlogModal() {
   const dispatch = useDispatch();
   const { deleteBlog } = useSelector((state) => state.blogs);
   const { removeBlog } = useBlogs();
-
+  
   const [blog, setBlog] = useState();
 
   const onClose = () => {
@@ -44,7 +44,7 @@ export default function DeleteBlogModal() {
     resetBlog();
     deleteBlogModal?.hide();
   };
-
+  
   return (
     <div
       className="modal fade"

@@ -21,7 +21,7 @@ import Loader from "../../components/Loader";
 
 export default function HomePage() {
   const dispatch = useDispatch();
-
+  
   const {
     isError: isBlogsError,
     isSuccess: isBlogsSuccess,

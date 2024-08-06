@@ -64,7 +64,7 @@ export default function BlogsPage() {
   if (isBlogsLoading || isCategoryLoading) {
     return <Loader />;
   }
-
+  
   return (
     <>
       <Navbar />
